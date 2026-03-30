@@ -111,18 +111,18 @@ https://mermaid.ai/play?utm_source=mermaid_live_editor&utm_medium=share#pako:eNq
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
 - How did you decide which constraints mattered most?
 
-    The scheduler considers three constraints: **owner availability** (a fixed daily minute budget), **task priority** (high / medium / low mapped to numeric weights), and **preferred time window** (morning, afternoon, or evening). It also respects **task completion state** — skipping non-recurring tasks already marked done — and **recurrence** — always re-queuing daily or weekly tasks regardless of prior completion.
+    The scheduler considers three constraints: owner availability,task priority, and preferred time window. It also respects task completion state, kipping non-recurring tasks already marked done and recurrence. Always re-queuing daily or weekly tasks regardless of prior completion.
 
-    Preferred time window was ranked first in the sort order because it reflects the real-world structure of a pet owner's day: a morning walk has to happen in the morning or it loses its purpose. Priority was ranked second because, within a given window, a feeding should always come before optional enrichment. Owner availability acts as the hard cap — no matter how high a task's priority, it cannot be scheduled if there is no time left.
+    Preferred time window was ranked first in the sort order because it reflects the real-world structure of a pet owner's day. Priority was ranked second because, within a given window, a feeding should always come before optional enrichment. Owner availability acts as the hard cap.
 
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
 
-    The scheduler uses a **greedy first-fit** strategy: it works through the sorted task list in one pass and skips any task whose duration exceeds the remaining available time, even if a shorter task later in the list could still fit. For example, if 15 minutes remain and the next task needs 20 minutes, that task is skipped — but a 10-minute task further down the list is also never reached for that slot.
+     it works through the sorted task list in one pass and skips any task whose duration exceeds the remaining available time, even if a shorter task later in the list could still fit.
 
-    This tradeoff is reasonable for pet care because the tasks that matter most — feedings, medication, walks — are already sorted to the front by priority and time window. Missing a low-priority task (like a grooming session) because a medium-priority one couldn't fit is an acceptable outcome; the owner can reschedule it tomorrow. The greedy approach keeps the code simple and fast (O(n log n)), which is appropriate for a daily planner with a small, predictable number of tasks per pet.
+    This tradeoff is reasonable for pet care because the tasks that matter most — feedings, medication, walks — are already sorted to the front by priority and time window. Missing a low-priority task because a medium-priority one couldn't fit is an acceptable outcome; the owner can reschedule it tomorrow. 
 
 ---
 

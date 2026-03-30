@@ -7,8 +7,9 @@ from typing import List, Optional
 PRIORITY_WEIGHTS = {"low": 1, "medium": 2, "high": 3}
 
 # Maps preferred_time strings to a sort order (earlier = scheduled first).
-# Tasks with no preferred_time are treated as "afternoon" (middle of day).
-TIME_WINDOW_ORDER = {"morning": 0, "afternoon": 1, "evening": 2}
+# Tasks with no preferred_time return 2 (between afternoon=1 and evening=3)
+# so explicitly windowed tasks always group before unanchored ones.
+TIME_WINDOW_ORDER = {"morning": 0, "afternoon": 1, "evening": 3}
 
 
 @dataclass
@@ -39,8 +40,8 @@ class Task:
 
     @property
     def time_order(self) -> int:
-        """Numeric sort key for preferred_time; no preference sorts to afternoon."""
-        return TIME_WINDOW_ORDER.get(self.preferred_time, 1)
+        """Numeric sort key for preferred_time; no preference (2) sorts after afternoon (1) but before evening (3)."""
+        return TIME_WINDOW_ORDER.get(self.preferred_time, 2)
 
     def is_due(self, today: Optional[date] = None) -> bool:
         """Return True if the task is due today or earlier."""

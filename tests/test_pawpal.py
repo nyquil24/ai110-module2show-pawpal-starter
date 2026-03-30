@@ -75,6 +75,26 @@ def test_mark_complete_creates_next_daily_task():
     assert next_task in scheduler.tasks
 
 
+def test_build_daily_schedule_orders_tasks_by_time():
+    owner = Owner(name="Alex")
+    pet = Pet(name="Buddy", species="Dog")
+    scheduler = PawPalScheduler(owner=owner, pet=pet)
+
+    scheduler.add_task(Task("Evening Play", duration_minutes=15, pet_name="Buddy", preferred_time="evening"))
+    scheduler.add_task(Task("Morning Walk", duration_minutes=30, pet_name="Buddy", preferred_time="morning"))
+    scheduler.add_task(Task("Afternoon Groom", duration_minutes=20, pet_name="Buddy", preferred_time="afternoon"))
+    scheduler.add_task(Task("No Preference", duration_minutes=10, pet_name="Buddy"))
+
+    plan = scheduler.build_daily_schedule(today=date(2026, 3, 30))
+    titles = [st.task.title for st in plan.scheduled_tasks]
+
+    assert titles == ["Morning Walk", "Afternoon Groom", "No Preference", "Evening Play"]
+    assert all(
+        plan.scheduled_tasks[i].start_minute < plan.scheduled_tasks[i + 1].start_minute
+        for i in range(len(plan.scheduled_tasks) - 1)
+    )
+
+
 def test_detect_conflicts_returns_warning_for_overlapping_plans():
     owner = Owner(name="Alex")
     buddy = Pet(name="Buddy", species="Dog")
