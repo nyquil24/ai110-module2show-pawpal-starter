@@ -160,10 +160,14 @@ https://mermaid.ai/play?utm_source=mermaid_live_editor&utm_medium=share#pako:eNq
 
 - What part of this project are you most satisfied with?
 
+I proud that it displays something 
+
 **b. What you would improve**
 
 - If you had another iteration, what would you improve or redesign?
-
+I would have started this earlier. It was very long and time consuming. 
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+
+I learned how to utilize AI tools to help with structured code. 
