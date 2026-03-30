@@ -22,6 +22,16 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Smarter Scheduling
+
+This version adds smarter scheduling features to PawPal+:
+
+- Recurring tasks marked `daily` or `weekly` now automatically create a new task instance for the next occurrence when completed.
+- The scheduler is due-date aware: only tasks due today or earlier are included in the current plan.
+- Tasks are ordered by preferred time window, priority, and duration for better daily flow.
+- Lightweight conflict warnings are generated when tasks overlap for the same pet or the same owner.
+- Task filtering supports both completion status and pet-specific views.
+
 ## Getting started
 
 ### Setup
